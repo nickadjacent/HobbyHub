@@ -1,0 +1,51 @@
+@model List<Hobby>
+
+@{
+    int? loggedInUserId = Context.Session.GetInt32("UserId");
+    string loggedInUsername = Context.Session.GetString("Username");
+}
+
+<div class="container mt-5 text-center" style="
+background-color: rgb(0,0,0);
+background-color: rgba(0,0,0, 0.65);
+color: white;
+font-weight: bold;
+border: 1.5px solid #f1f1f1;">
+    <div class="row">
+        <h1 class="col-7">Hobbies</h1>
+        <a asp-controller="HobbyHub" asp-action="NewHobby" class="col-2 btn btn-outline-primary m-2">Create a Hobby</a>
+        <a asp-controller="Home" asp-action="Logout" class="col-2 btn btn-outline-danger m-2">Logout</a>
+    </div>
+</div>
+
+<div class="container mt-4 p-4" style="background-color: rgb(0,0,0);
+background-color: rgba(0,0,0, 0.65);
+color: white;
+font-weight: bold;
+border: 1.5px solid #f1f1f1;">
+    <table class="table table-bordered table-hover table-striped table-dark mx-auto" style="width: 60%; background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0, 0.65);
+    color: white;
+    font-weight: bold;
+    border: 1.5px solid #f1f1f1;">
+        <thead>
+            <th scope="col">Name (Click for more info!)</th>
+            <th scope="col">Enthusiasts</th>
+        </thead>
+        <tbody>
+            @foreach (Hobby hobby in Model)
+            {
+                <tr>
+                    <td><a class="text-white" asp-controller="HobbyHub" asp-action="HobbyDetails"
+    asp-route-hobbyId="@hobby.HobbyId">@hobby.Name</a></td>
+                    <td>@hobby.UserHobbies.Count</td>
+                </tr>
+            }
+        </tbody>
+        </tbody>
+    </table>
+</div>
+
+<div class="container">
+
+</div>

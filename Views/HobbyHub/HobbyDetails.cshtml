@@ -1,0 +1,93 @@
+@model Hobby
+
+@{
+    int? loggedInUserId = Context.Session.GetInt32("UserId");
+    string loggedInUsername = Context.Session.GetString("Username");
+}
+
+<div class="row mt-4 p-4" style="
+background-color: rgb(0,0,0);
+background-color: rgba(0,0,0, 0.65);
+color: white;
+font-weight: bold;
+border: 1.5px solid #f1f1f1;">
+    @if (loggedInUserId == Model.UserId)
+    {
+        <h1 class="col-7">@Model.Name</h1>
+        <a asp-controller="HobbyHub" asp-action="EditHobby" asp-route-hobbyId="@Model.HobbyId"
+    class="btn btn-outline-warning col-2 m-2">
+            Edit Hobby
+        </a>
+        <a asp-controller="HobbyHub" asp-action="Hub" class="btn btn-outline-primary col-2 m-2">Back To Hub</a>
+    }
+    else
+    {
+        <h1 class="col-9">@Model.Name</h1>
+        <a asp-controller="HobbyHub" asp-action="Hub" class="btn btn-outline-primary col-2 m-2">Back To Hub</a>
+    }
+    </div>
+
+    <div class="row mt-4 p-4" style="
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0, 0.65);
+    color: white;
+    font-weight: bold;
+    border: 1.5px solid #f1f1f1;">
+        <h6 class="col-2">Description:</h6>
+        <p class="col-8">@Model.Description</p>
+    </div>
+
+    <br>
+
+    <div class="row p-4" style="
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0, 0.65);
+    color: white;
+    font-weight: bold;
+    border: 1.5px solid #f1f1f1;">
+        <div class="col">
+            <h6>@Model.Name Enthusiasts:</h6>
+            <table class="table table-bordered table-hover table-striped table-dark" style="
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0, 0.65);
+            color: white;
+            font-weight: bold;
+            border: 1.5px solid #f1f1f1;">
+                <thead>
+                    <th scope="col">Name</th>
+                    <th scope="col">Proficiency</th>
+                </thead>
+                <tbody>
+                    @foreach (UserHobby enthusiast in Model.UserHobbies)
+                {
+                    <tr>
+                        <td>@enthusiast.User.Username</td>
+                        <td>Level</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col text-center">
+        <h6>Become an Enthusiast!</h6>
+        <form asp-controller="HobbyHub" asp-action="AddToHobbies" asp-route-hobbyId="@Model.HobbyId" method="POST">
+
+
+
+
+            @* <select name="proficiencyLevel" class="btn btn-outline-info dropdown-toggle mt-3">
+                <option value="">Choose a Proficiency Level</option>
+                <option value="Novie">Novice</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="Expert">Expert</option>
+                </select> *@
+
+
+
+
+            <br>
+            <button class="btn btn-outline-info mt-3">Add To Hobbies</button>
+        </form>
+    </div>
+</div>
